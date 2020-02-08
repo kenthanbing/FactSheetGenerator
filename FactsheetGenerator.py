@@ -1,10 +1,10 @@
-import docx
+import docx, os
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.oxml.ns import qn
 import json
 
-doc = Document('letterhead.docx')
+doc = Document('FactSheetGenerator' + os.sep + 'letterhead.docx')
 
 # 定义写入标题的函数
 def set_font(run):
@@ -16,7 +16,7 @@ def set_font(run):
 def add_pictures(pic_paragragh):
     pic_run = pic_paragragh.add_run()
     for i in range(1,4):
-        pic_run.add_picture(f'{str(i)}.jpg', width=docx.shared.Cm(5.4),height=docx.shared.Cm(3.3))
+        pic_run.add_picture('FactSheetGenerator' + os.sep + f'{str(i)}.jpg', width=docx.shared.Cm(5.4),height=docx.shared.Cm(3.3))
         pic_run.add_text(' ')
 
 # 定义写入段落的函数
@@ -27,7 +27,7 @@ def write_paragraph(paragraphs):
     return
 
 # 获取json文件数据
-with open('factsheet_data.json', 'rb') as f:
+with open('FactSheetGenerator' + os.sep + 'factsheet_data.json', 'rb') as f:
     factsheet_data = json.load(f)
 
 # 设置正文全局字体
@@ -89,4 +89,4 @@ set_font(run)
 paragraphs = factsheet_data['contact']
 write_paragraph(paragraphs)
 
-doc.save(f'{factsheet_data["title"]}.docx')
+doc.save('FactSheetGenerator' + os.sep + f'{factsheet_data["title"]}.docx')
